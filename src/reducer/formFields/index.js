@@ -1,11 +1,7 @@
-const defaultState = {
-  create: {},
-  update: {},
-};
+import { combineReducers } from 'redux';
+// import createFilteredReducer from '../../createFilteredReducer';
 
-export default (state = defaultState, action) => {
-  switch (action.type) {
-    default:
-      return state;
-  }
-};
+export default combineReducers({
+  create: () => ({}),
+  update: () => ({}),
+});
