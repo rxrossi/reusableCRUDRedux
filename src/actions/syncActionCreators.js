@@ -1,31 +1,31 @@
 import * as types from './constants';
 
-const request = (method, feature) => () => ({
+const request = (method, uniquePairID) => () => ({
   type: types[`${method}_REQUEST`],
-  feature,
+  ...uniquePairID,
 });
 
-const success = (method, feature) => payload => ({
+const success = (method, uniquePairID) => payload => ({
   type: types[`${method}_SUCCESS`],
-  feature,
+  ...uniquePairID,
   payload,
 });
 
-const failure = (method, feature) => payload => ({
+const failure = (method, uniquePairID) => payload => ({
   type: types[`${method}_ERROR`],
-  feature,
+  ...uniquePairID,
   payload,
 });
 
-const setConfigurer = (method, feature) => ({
-  [`${method.toLowerCase()}Request`]: request(method, feature),
-  [`${method.toLowerCase()}Success`]: success(method, feature),
-  [`${method.toLowerCase()}Failure`]: failure(method, feature),
+const setConfigurer = (method, uniquePairID) => ({
+  [`${method.toLowerCase()}Request`]: request(method, uniquePairID),
+  [`${method.toLowerCase()}Success`]: success(method, uniquePairID),
+  [`${method.toLowerCase()}Failure`]: failure(method, uniquePairID),
 });
 
-export default feature => ({
-  ...setConfigurer('GET', feature),
-  ...setConfigurer('POST', feature),
-  ...setConfigurer('PUT', feature),
-  ...setConfigurer('DELETE', feature),
+export default uniquePairID => ({
+  ...setConfigurer('GET', uniquePairID),
+  ...setConfigurer('POST', uniquePairID),
+  ...setConfigurer('PUT', uniquePairID),
+  ...setConfigurer('DELETE', uniquePairID),
 });

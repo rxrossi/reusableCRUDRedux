@@ -26,8 +26,8 @@ export const post = (URL, syncActions) => data => (dispatch) => {
     .catch(err => dispatch(syncActions.postError(err)));
 };
 
-export default (URL, resourceName) => {
-  const syncActions = configureSyncActions(resourceName);
+export default (URL, uniqueKeyValuePairID) => {
+  const syncActions = configureSyncActions(uniqueKeyValuePairID);
   return {
     get: get(URL, syncActions),
   };
