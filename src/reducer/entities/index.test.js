@@ -16,14 +16,14 @@ describe('entities reducer', () => {
 
   it('works when receiving a getSucess', () => {
     // Prepare
-    const payload = { name: 'name' };
+    const payload = [{ name: 'name' }];
     const action = syncActions.getSuccess(payload);
 
     // Act
     const actual = sut(undefined, action);
 
     // Assert
-    const expected = [payload];
+    const expected = payload;
     expect(actual).toEqual(expected);
   });
 });

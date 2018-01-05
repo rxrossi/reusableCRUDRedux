@@ -107,7 +107,7 @@ describe('Async actions tests', () => {
             // Assert
             expect(store.getActions()).toEqual([
               syncActions.deleteRequest(),
-              syncActions.deleteSuccess(),
+              syncActions.deleteSuccess(id),
             ]);
           });
       });

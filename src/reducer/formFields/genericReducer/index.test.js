@@ -1,7 +1,7 @@
 import sut from './index';
 import formActionsConfig from '../../../actions/formActions';
 
-const formActions = formActionsConfig('create');
+const formActions = formActionsConfig()('create');
 
 describe('generic form', () => {
   it('returns the default state', () => {

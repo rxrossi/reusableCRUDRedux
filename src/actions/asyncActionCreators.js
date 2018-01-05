@@ -45,7 +45,7 @@ export const del = (URL, syncActions) => data => (dispatch) => {
     .then(res => res.json())
     .then((json) => {
       if (json.code === 204) {
-        return dispatch(syncActions.deleteSuccess(json.body));
+        return dispatch(syncActions.deleteSuccess(data));
       }
       return dispatch(syncActions.deleteFailure(json.errors));
     })
