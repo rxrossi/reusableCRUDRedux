@@ -124,7 +124,7 @@ describe('asyncActions test', () => {
           expect(store.getState().clients.entities).toEqual(expectedEntities));
       });
 
-      it.only('works for delete actions', () => {
+      it('works for delete actions', () => {
         const deleteId = '2';
         fetchMock.delete(
           (url, opts) => url === URLS.CLIENTS && opts.body === JSON.stringify(deleteId)
