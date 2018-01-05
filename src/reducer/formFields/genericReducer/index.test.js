@@ -24,5 +24,18 @@ describe('generic form', () => {
       const expected = { name };
       expect(actual).toEqual(expected);
     });
+
+    it('works for a field in an array', () => {
+      // Prepare
+      const name = 'someName';
+      const action = formActions.changeField(['sons', 0, 'name'], name);
+      // Act
+      const actual = sut(undefined, action);
+      // Assert
+      const expected = {
+        sons: [{ name }],
+      };
+      expect(actual).toEqual(expected);
+    });
   });
 });

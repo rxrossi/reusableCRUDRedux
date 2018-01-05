@@ -31,7 +31,22 @@ export default (state = {}, action) => {
   const variable = action.type ? action.type.split('_')[0] : '';
   switch (variable) {
     case 'CHANGE':
-      return changeObject({ ...state.fields }, action.value, action.path);
+      return {
+        ...state,
+        ...changeObject({ ...state.fields }, action.value, action.path),
+      };
+    case 'APPEND':
+      return {
+        ...state,
+        ...changeObject({ ...state.fields }, action.value, action.path, 'append_to_arr'),
+      };
+    case 'REMOVE':
+      return {
+        ...state,
+        ...changeObject({ ...state.fields }, action.value, action.path, 'remove_of_arr'),
+      };
+    case 'CLEAR':
+      return {};
     default:
       return state;
   }

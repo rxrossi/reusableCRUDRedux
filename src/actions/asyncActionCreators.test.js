@@ -6,9 +6,9 @@ import asyncActionsConfigurer from './asyncActionCreators';
 
 const RESOURCE_URL = 'http:localhost:5001/clients';
 
-const asyncActions = asyncActionsConfigurer(RESOURCE_URL, 'clients');
+const asyncActions = asyncActionsConfigurer(RESOURCE_URL, { resourceName: 'clients' });
 
-const syncActions = syncActionsConfigurer('clients');
+const syncActions = syncActionsConfigurer({ resourceName: 'clients' });
 
 const headers = { 'content-type': 'application/json' };
 const middlewares = [thunk];
