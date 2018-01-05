@@ -28,6 +28,9 @@ function changeObject(obj, value, path, typeOfOperation) {
 /* eslint-enable */
 
 export default (state = {}, action) => {
+  if (action.type && action.type.endsWith('SUCCESS')) {
+    return {};
+  }
   const variable = action.type ? action.type.split('_')[0] : '';
   switch (variable) {
     case 'CHANGE':
