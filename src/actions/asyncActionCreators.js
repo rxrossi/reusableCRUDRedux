@@ -10,7 +10,7 @@ export const get = (URL, syncActions) => () => (dispatch) => {
   return fetch(URL)
     .then(res => res.json())
     .then(json => dispatch(syncActions.getSuccess(json.body)))
-    .catch(err => dispatch(syncActions.getError(err)));
+    .catch(err => dispatch(syncActions.getFailure(err)));
 };
 
 export const post = (URL, syncActions) => data => (dispatch) => {
@@ -21,14 +21,43 @@ export const post = (URL, syncActions) => data => (dispatch) => {
       if (json.code === 201) {
         return dispatch(syncActions.postSuccess(json.body));
       }
-      return dispatch(syncActions.postError(json.errors));
+      return dispatch(syncActions.postFailure(json.errors));
     })
-    .catch(err => dispatch(syncActions.postError(err)));
+    .catch(err => dispatch(syncActions.postFailure(err)));
+};
+
+export const put = (URL, syncActions) => data => (dispatch) => {
+  dispatch(syncActions.putRequest());
+  return fetch(URL, { body: JSON.stringify(data), method: 'PUT', headers: jsonHeader })
+    .then(res => res.json())
+    .then((json) => {
+      if (json.code === 200) {
+        return dispatch(syncActions.putSuccess(json.body));
+      }
+      return dispatch(syncActions.putFailure(json.errors));
+    })
+    .catch(err => dispatch(syncActions.putFailure(err)));
+};
+
+export const del = (URL, syncActions) => data => (dispatch) => {
+  dispatch(syncActions.deleteRequest());
+  return fetch(URL, { body: JSON.stringify(data), method: 'DELETE', headers: jsonHeader })
+    .then(res => res.json())
+    .then((json) => {
+      if (json.code === 204) {
+        return dispatch(syncActions.deleteSuccess(json.body));
+      }
+      return dispatch(syncActions.deleteFailure(json.errors));
+    })
+    .catch(err => dispatch(syncActions.deleteFailure(err)));
 };
 
 export default (URL, uniqueKeyValuePairID) => {
   const syncActions = configureSyncActions(uniqueKeyValuePairID);
   return {
     get: get(URL, syncActions),
+    post: post(URL, syncActions),
+    put: put(URL, syncActions),
+    delete: del(URL, syncActions),
   };
 };
