@@ -21,8 +21,14 @@ export const removeField = (uniquePairID, formName) => (path = '', value) => ({
   ...uniquePairID,
 });
 
+export const clearFields = (uniquePairID, formName) => () => ({
+  type: types[`CLEAR_${formName.toUpperCase()}_FIELDS`],
+  ...uniquePairID,
+});
+
 export default uniquePairID => formName => ({
   changeField: changeField(uniquePairID, formName),
   appendField: appendField(uniquePairID, formName),
   removeField: removeField(uniquePairID, formName),
+  clear: clearFields(uniquePairID, formName),
 });

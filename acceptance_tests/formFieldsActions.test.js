@@ -159,4 +159,43 @@ describe('formFieldsActions', () => {
       expect(store.getState().clients.formFields.create.sons).toEqual(expected);
     });
   });
+  describe('clear a form', () => {
+    it('works', () => {
+      // Prepare
+      const {
+        reducer,
+        createFormFieldActions,
+      } = reusableCRUDRedux(URL, 'clients');
+
+      const initialState = {
+        clients: {
+          ...reducer(undefined, {}),
+          formFields: {
+            create: {
+              sons: [
+                { name: 'name1' },
+                { name: 'name2' },
+                { name: 'name3' },
+              ],
+            },
+          },
+        },
+      };
+
+      const store = createStore(
+        combineReducers({
+          clients: reducer,
+        }),
+        initialState,
+        applyMiddleware(thunk),
+      );
+
+      const action = createFormFieldActions.clear();
+      // Act
+      store.dispatch(action);
+      // Assert
+      const expected = {};
+      expect(store.getState().clients.formFields.create).toEqual(expected);
+    });
+  });
 });

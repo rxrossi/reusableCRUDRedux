@@ -44,7 +44,6 @@ export default (state = {}, action) => {
         ...changeObject({ ...state }, action.value, action.path, 'append_to_arr'),
       };
     case 'REMOVE':
-      console.log(state);
       return {
         ...state,
         ...changeObject({ ...state }, action.value, action.path, 'remove_of_arr'),
