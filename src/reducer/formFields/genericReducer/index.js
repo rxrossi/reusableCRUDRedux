@@ -36,17 +36,18 @@ export default (state = {}, action) => {
     case 'CHANGE':
       return {
         ...state,
-        ...changeObject({ ...state.fields }, action.value, action.path),
+        ...changeObject({ ...state }, action.value, action.path),
       };
     case 'APPEND':
       return {
         ...state,
-        ...changeObject({ ...state.fields }, action.value, action.path, 'append_to_arr'),
+        ...changeObject({ ...state }, action.value, action.path, 'append_to_arr'),
       };
     case 'REMOVE':
+      console.log(state);
       return {
         ...state,
-        ...changeObject({ ...state.fields }, action.value, action.path, 'remove_of_arr'),
+        ...changeObject({ ...state }, action.value, action.path, 'remove_of_arr'),
       };
     case 'CLEAR':
       return {};

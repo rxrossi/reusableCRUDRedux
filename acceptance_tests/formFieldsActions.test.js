@@ -117,5 +117,46 @@ describe('formFieldsActions', () => {
       };
       expect(store.getState().clients.formFields.create).toEqual(expected);
     });
+
+    it('can remove a field', () => {
+      // Prepare
+      const {
+        reducer,
+        createFormFieldActions,
+      } = reusableCRUDRedux(URL, 'clients');
+
+      const initialState = {
+        clients: {
+          ...reducer(undefined, {}),
+          formFields: {
+            create: {
+              sons: [
+                { name: 'name1' },
+                { name: 'name2' },
+                { name: 'name3' },
+              ],
+            },
+          },
+        },
+      };
+
+      const store = createStore(
+        combineReducers({
+          clients: reducer,
+        }),
+        initialState,
+        applyMiddleware(thunk),
+      );
+
+      const action = createFormFieldActions.removeField(['sons'], 1);
+      // Act
+      store.dispatch(action);
+      // Assert
+      const expected = [
+        initialState.clients.formFields.create.sons[0],
+        initialState.clients.formFields.create.sons[2],
+      ];
+      expect(store.getState().clients.formFields.create.sons).toEqual(expected);
+    });
   });
 });

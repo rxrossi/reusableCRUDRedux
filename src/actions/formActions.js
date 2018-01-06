@@ -14,9 +14,10 @@ export const appendField = (uniquePairID, formName) => (path = '', value = {}) =
   ...uniquePairID,
 });
 
-export const removeField = (uniquePairID, formName) => (path = '') => ({
+export const removeField = (uniquePairID, formName) => (path = '', value) => ({
   type: types[`REMOVE_${formName.toUpperCase()}_FIELD`],
   path,
+  value,
   ...uniquePairID,
 });
 
