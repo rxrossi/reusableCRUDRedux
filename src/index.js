@@ -5,6 +5,7 @@ import crudReducer from './reducer';
 
 export default (URL, resourceName) => ({
   asyncActions: asyncActionCreators(URL, { resourceName }),
-  formActionsConfig: formActionsConfig({ resourceName }),
+  createFormFieldActions: formActionsConfig({ resourceName })('create'),
+  updateFormFieldActions: formActionsConfig({ resourceName })('update'),
   reducer: createFilteredReducer(crudReducer, action => action.resourceName === resourceName),
 });
