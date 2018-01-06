@@ -27,11 +27,12 @@ describe('formFieldsActions', () => {
       const expected = { name: 'someName' };
       expect(store.getState().clients.formFields.create).toEqual(expected);
     });
+
     it('can change a field inside and array', () => {
       // Prepare
       const {
         reducer,
-        createFormFieldActions,
+        updateFormFieldActions,
       } = reusableCRUDRedux(URL, 'clients');
 
       const store = createStore(
@@ -41,7 +42,7 @@ describe('formFieldsActions', () => {
         applyMiddleware(thunk),
       );
 
-      const action = createFormFieldActions.changeField(['sons', 2, 'name'], 'someName');
+      const action = updateFormFieldActions.changeField(['sons', 2, 'name'], 'someName');
       // Act
       store.dispatch(action);
       // Assert
@@ -54,7 +55,7 @@ describe('formFieldsActions', () => {
           },
         ],
       };
-      expect(store.getState().clients.formFields.create).toEqual(expected);
+      expect(store.getState().clients.formFields.update).toEqual(expected);
     });
   });
 });
