@@ -8,6 +8,34 @@ const URLS = {
   PRODUCTS: 'http://localhost:5001/products',
 };
 
+
+const preAPIStatusWithErrors = {
+  get: {
+    working: true,
+    errors: {
+      someKey: 'someVall',
+    },
+  },
+  post: {
+    working: true,
+    errors: {
+      someKey: 'someVall',
+    },
+  },
+  put: {
+    working: true,
+    errors: {
+      someKey: 'someVall',
+    },
+  },
+  delete: {
+    working: true,
+    errors: {
+      someKey: 'someVall',
+    },
+  },
+};
+
 describe('asyncActions test', () => {
   beforeEach(() => {
     fetchMock.restore();
@@ -17,9 +45,10 @@ describe('asyncActions test', () => {
     fetchMock.restore();
   });
 
-  describe('using URLS.CLIENTS and clients as params, asserting against state.clients.entities and state.clients.formFields ', () => {
+  describe('using URLS.CLIENTS and clients as params, asserting against state.clients.entities, state.clients.formFields state.APIStatus', () => {
     it('works for get action', async () => {
       // Prepare
+
       const clientsList = [
         { name: 'client1' },
         { name: 'client2' },
@@ -27,18 +56,40 @@ describe('asyncActions test', () => {
       fetchMock.get(URLS.CLIENTS, { code: 200, body: clientsList });
       const { reducer, asyncActions } = reusableCRUDRedux(URLS.CLIENTS, 'clients');
 
+      const initialState = {
+        clients: {
+          entities: [],
+          APIStatus: preAPIStatusWithErrors,
+          formFields: {
+            create: {},
+            update: {},
+          },
+        },
+      };
+
+      const expectedAPIStatus = {
+        ...preAPIStatusWithErrors,
+        get: {
+          errors: {},
+          working: false,
+        },
+      };
+
       const store = createStore(
         combineReducers({
           clients: reducer,
         }),
+        initialState,
         applyMiddleware(thunk),
       );
 
       const action = asyncActions.get();
       // Act
-      return store.dispatch(action).then(() =>
+      return store.dispatch(action).then(() => {
         // Assert
-        expect(store.getState().clients.entities).toEqual(clientsList));
+        expect(store.getState().clients.entities).toEqual(clientsList);
+        expect(store.getState().clients.APIStatus).toEqual(expectedAPIStatus);
+      });
     });
 
     it('works for post action', () => {
@@ -64,6 +115,15 @@ describe('asyncActions test', () => {
               ...clientBody,
             },
           },
+          APIStatus: preAPIStatusWithErrors,
+        },
+      };
+
+      const expectedAPIStatus = {
+        ...preAPIStatusWithErrors,
+        post: {
+          working: false,
+          errors: {},
         },
       };
 
@@ -86,6 +146,7 @@ describe('asyncActions test', () => {
         // Assert
         expect(store.getState().clients.entities).toEqual(expectedEntities);
         expect(store.getState().clients.formFields.create).toEqual({});
+        expect(store.getState().clients.APIStatus).toEqual(expectedAPIStatus);
       });
     });
 
@@ -112,6 +173,15 @@ describe('asyncActions test', () => {
               ...clientBody,
             },
           },
+          APIStatus: preAPIStatusWithErrors,
+        },
+      };
+
+      const expectedAPIStatus = {
+        ...preAPIStatusWithErrors,
+        put: {
+          working: false,
+          errors: {},
         },
       };
 
@@ -134,6 +204,7 @@ describe('asyncActions test', () => {
         // Assert
         expect(store.getState().clients.entities).toEqual(expectedEntities);
         expect(store.getState().clients.formFields.update).toEqual({});
+        expect(store.getState().clients.APIStatus).toEqual(expectedAPIStatus);
       });
     });
 
@@ -156,6 +227,7 @@ describe('asyncActions test', () => {
         clients: {
           ...reducer(undefined, {}),
           entities: clientsList,
+          APIStatus: preAPIStatusWithErrors,
         },
       };
 
@@ -174,9 +246,11 @@ describe('asyncActions test', () => {
 
       const action = asyncActions.delete(deleteId);
       // Act
-      return store.dispatch(action).then(() =>
+      return store.dispatch(action).then(() => {
         // Assert
-        expect(store.getState().clients.entities).toEqual(expectedEntities));
+        expect(store.getState().clients.entities).toEqual(expectedEntities);
+        expect(store.getState().clients.APIStatus).toEqual(expectedEntities);
+      });
     });
   });
 });
