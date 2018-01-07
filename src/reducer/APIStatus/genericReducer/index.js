@@ -7,6 +7,10 @@ export default (state = defaultState, action) => {
   if (!action.type) {
     return state;
   }
+  if (action.type.startsWith('CLEAR_')) {
+    return defaultState;
+  }
+
   switch (action.type.split('_')[1]) {
     case 'REQUEST':
       return {
@@ -14,10 +18,7 @@ export default (state = defaultState, action) => {
         errors: {},
       };
     case 'SUCCESS':
-      return {
-        working: false,
-        errors: {},
-      };
+      return defaultState;
     case 'ERROR':
       return {
         working: false,

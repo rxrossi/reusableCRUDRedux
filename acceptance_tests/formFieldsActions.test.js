@@ -160,7 +160,33 @@ describe('formFieldsActions', () => {
     });
   });
   describe('clear a form', () => {
-    it('works', () => {
+    const preAPIStatusWithErrors = {
+      get: {
+        working: true,
+        errors: {
+          someKey: 'someVall',
+        },
+      },
+      post: {
+        working: true,
+        errors: {
+          someKey: 'someVall',
+        },
+      },
+      put: {
+        working: true,
+        errors: {
+          someKey: 'someVall',
+        },
+      },
+      delete: {
+        working: true,
+        errors: {
+          someKey: 'someVall',
+        },
+      },
+    };
+    it('works for createForm', () => {
       // Prepare
       const {
         reducer,
@@ -179,6 +205,7 @@ describe('formFieldsActions', () => {
               ],
             },
           },
+          APIStatus: preAPIStatusWithErrors,
         },
       };
 
@@ -194,8 +221,63 @@ describe('formFieldsActions', () => {
       // Act
       store.dispatch(action);
       // Assert
-      const expected = {};
-      expect(store.getState().clients.formFields.create).toEqual(expected);
+      const expectedFormFields = {};
+      const expectedAPIStatus = {
+        ...preAPIStatusWithErrors,
+        post: {
+          errors: {},
+          working: false,
+        },
+      };
+      expect(store.getState().clients.formFields.create).toEqual(expectedFormFields);
+      expect(store.getState().clients.APIStatus).toEqual(expectedAPIStatus);
+    });
+
+    it('works for updateForm', () => {
+      // Prepare
+      const {
+        reducer,
+        updateFormFieldActions,
+      } = reusableCRUDRedux(URL, 'clients');
+
+      const initialState = {
+        clients: {
+          ...reducer(undefined, {}),
+          formFields: {
+            update: {
+              sons: [
+                { name: 'name1' },
+                { name: 'name2' },
+                { name: 'name3' },
+              ],
+            },
+          },
+          APIStatus: preAPIStatusWithErrors,
+        },
+      };
+
+      const store = createStore(
+        combineReducers({
+          clients: reducer,
+        }),
+        initialState,
+        applyMiddleware(thunk),
+      );
+
+      const action = updateFormFieldActions.clear();
+      // Act
+      store.dispatch(action);
+      // Assert
+      const expectedFormFields = {};
+      const expectedAPIStatus = {
+        ...preAPIStatusWithErrors,
+        put: {
+          errors: {},
+          working: false,
+        },
+      };
+      expect(store.getState().clients.formFields.update).toEqual(expectedFormFields);
+      expect(store.getState().clients.APIStatus).toEqual(expectedAPIStatus);
     });
   });
 });
