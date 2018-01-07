@@ -245,11 +245,18 @@ describe('asyncActions test', () => {
       );
 
       const action = asyncActions.delete(deleteId);
+      const expectedAPIStatus = {
+        ...preAPIStatusWithErrors,
+        delete: {
+          errors: {},
+          working: false,
+        },
+      };
       // Act
       return store.dispatch(action).then(() => {
         // Assert
         expect(store.getState().clients.entities).toEqual(expectedEntities);
-        expect(store.getState().clients.APIStatus).toEqual(expectedEntities);
+        expect(store.getState().clients.APIStatus).toEqual(expectedAPIStatus);
       });
     });
   });
