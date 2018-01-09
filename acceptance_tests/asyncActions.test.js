@@ -212,8 +212,7 @@ describe('asyncActions test', () => {
       const deleteId = '2';
       fetchMock.delete(
         (url, opts) => url === URLS.CLIENTS && opts.body === JSON.stringify(deleteId)
-        , { code: 204, body: undefined }, // 200 because it returns data,
-        // 204 would not return a body
+        , { code: 204, body: undefined },
       );
       const { reducer, asyncActions } = reusableCRUDRedux(URLS.CLIENTS, 'clients');
 
