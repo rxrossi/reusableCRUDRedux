@@ -50,6 +50,8 @@ export default (state = {}, action) => {
       };
     case 'CLEAR':
       return {};
+    case 'SET':
+      return action.payload;
     default:
       return state;
   }

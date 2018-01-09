@@ -280,4 +280,32 @@ describe('formFieldsActions', () => {
       expect(store.getState().clients.APIStatus).toEqual(expectedAPIStatus);
     });
   });
+  describe('set all fields', () => {
+    it('works', () => {
+      // Prepare
+      const {
+        reducer,
+        updateFormFieldActions,
+      } = reusableCRUDRedux(URL, 'clients');
+
+      const store = createStore(
+        combineReducers({
+          clients: reducer,
+        }),
+        applyMiddleware(thunk),
+      );
+
+      const fieldsValues = {
+        name: 'nameValues',
+        phone: '999',
+      };
+
+      // Act
+      const action = updateFormFieldActions.set(fieldsValues);
+      store.dispatch(action);
+
+      // Assert
+      expect(store.getState().clients.formFields.update).toEqual(fieldsValues);
+    });
+  });
 });
