@@ -48,11 +48,11 @@ export const put = (URL, syncActions) => data => (dispatch) => {
         return dispatch(syncActions.putSuccess(json.body));
       }
       dispatch(syncActions.putFailure(json.errors));
-      throw new Error();
+      return false;
     })
     .catch((err) => {
       dispatch(syncActions.putFailure(err));
-      throw new Error();
+      throw new Error(err);
     });
 };
 
