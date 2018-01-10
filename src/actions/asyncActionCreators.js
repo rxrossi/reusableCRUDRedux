@@ -9,7 +9,12 @@ export const get = (URL, syncActions) => () => (dispatch) => {
   dispatch(syncActions.getRequest());
   return fetch(URL)
     .then(res => res.json())
-    .then(json => dispatch(syncActions.getSuccess(json.body)))
+    .then((json) => {
+      if (json.code === 200) {
+        return dispatch(syncActions.getSuccess(json.body));
+      }
+      throw dispatch(syncActions.getFailure(json.errors));
+    })
     .catch(err => dispatch(syncActions.getFailure(err)));
 };
 
@@ -21,7 +26,7 @@ export const post = (URL, syncActions) => data => (dispatch) => {
       if (json.code === 201) {
         return dispatch(syncActions.postSuccess(json.body));
       }
-      return dispatch(syncActions.postFailure(json.errors));
+      throw dispatch(syncActions.postFailure(json.errors));
     })
     .catch(err => dispatch(syncActions.postFailure(err)));
 };
@@ -34,7 +39,7 @@ export const put = (URL, syncActions) => data => (dispatch) => {
       if (json.code === 200) {
         return dispatch(syncActions.putSuccess(json.body));
       }
-      return dispatch(syncActions.putFailure(json.errors));
+      throw dispatch(syncActions.putFailure(json.errors));
     })
     .catch(err => dispatch(syncActions.putFailure(err)));
 };
@@ -47,7 +52,7 @@ export const del = (URL, syncActions) => data => (dispatch) => {
       if (json.code === 204) {
         return dispatch(syncActions.deleteSuccess(data));
       }
-      return dispatch(syncActions.deleteFailure(json.errors));
+      throw dispatch(syncActions.deleteFailure(json.errors));
     })
     .catch(err => dispatch(syncActions.deleteFailure(err)));
 };
