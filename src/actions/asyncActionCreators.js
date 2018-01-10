@@ -13,9 +13,13 @@ export const get = (URL, syncActions) => () => (dispatch) => {
       if (json.code === 200) {
         return dispatch(syncActions.getSuccess(json.body));
       }
-      throw dispatch(syncActions.getFailure(json.errors));
+      dispatch(syncActions.getFailure(json.errors));
+      throw new Error();
     })
-    .catch(err => dispatch(syncActions.getFailure(err)));
+    .catch((err) => {
+      dispatch(syncActions.getFailure(err));
+      throw new Error();
+    });
 };
 
 export const post = (URL, syncActions) => data => (dispatch) => {
@@ -26,9 +30,13 @@ export const post = (URL, syncActions) => data => (dispatch) => {
       if (json.code === 201) {
         return dispatch(syncActions.postSuccess(json.body));
       }
-      throw dispatch(syncActions.postFailure(json.errors));
+      dispatch(syncActions.postFailure(json.errors));
+      throw new Error();
     })
-    .catch(err => dispatch(syncActions.postFailure(err)));
+    .catch((err) => {
+      dispatch(syncActions.postFailure(err));
+      throw new Error();
+    });
 };
 
 export const put = (URL, syncActions) => data => (dispatch) => {
@@ -39,9 +47,13 @@ export const put = (URL, syncActions) => data => (dispatch) => {
       if (json.code === 200) {
         return dispatch(syncActions.putSuccess(json.body));
       }
-      throw dispatch(syncActions.putFailure(json.errors));
+      dispatch(syncActions.putFailure(json.errors));
+      throw new Error();
     })
-    .catch(err => dispatch(syncActions.putFailure(err)));
+    .catch((err) => {
+      dispatch(syncActions.putFailure(err));
+      throw new Error();
+    });
 };
 
 export const del = (URL, syncActions) => data => (dispatch) => {
@@ -52,9 +64,13 @@ export const del = (URL, syncActions) => data => (dispatch) => {
       if (json.code === 204) {
         return dispatch(syncActions.deleteSuccess(data));
       }
-      throw dispatch(syncActions.deleteFailure(json.errors));
+      dispatch(syncActions.deleteFailure(json.errors));
+      throw new Error();
     })
-    .catch(err => dispatch(syncActions.deleteFailure(err)));
+    .catch((err) => {
+      dispatch(syncActions.deleteFailure(err));
+      throw new Error();
+    });
 };
 
 export default (URL, uniqueKeyValuePairID) => {
