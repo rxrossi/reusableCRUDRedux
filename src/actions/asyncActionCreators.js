@@ -31,7 +31,7 @@ export const post = (URL, syncActions) => data => (dispatch) => {
         return dispatch(syncActions.postSuccess(json.body));
       }
       dispatch(syncActions.postFailure(json.errors));
-      throw new Error();
+      return false;
     })
     .catch((err) => {
       dispatch(syncActions.postFailure(err));
