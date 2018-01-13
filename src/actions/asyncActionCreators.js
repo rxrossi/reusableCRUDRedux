@@ -18,7 +18,7 @@ export const get = (URL, syncActions) => () => (dispatch) => {
     })
     .catch((err) => {
       dispatch(syncActions.getFailure(err));
-      throw new Error();
+      throw new Error(err);
     });
 };
 
@@ -35,7 +35,7 @@ export const post = (URL, syncActions) => data => (dispatch) => {
     })
     .catch((err) => {
       dispatch(syncActions.postFailure(err));
-      throw new Error();
+      throw new Error(err);
     });
 };
 
@@ -69,7 +69,7 @@ export const del = (URL, syncActions) => data => (dispatch) => {
     })
     .catch((err) => {
       dispatch(syncActions.deleteFailure(err));
-      throw new Error();
+      throw new Error(err);
     });
 };
 
