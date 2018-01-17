@@ -14,7 +14,7 @@ export const get = (URL, syncActions) => () => (dispatch) => {
         return dispatch(syncActions.getSuccess(json.body));
       }
       dispatch(syncActions.getFailure(json.errors));
-      throw new Error();
+      return false;
     })
     .catch((err) => {
       dispatch(syncActions.getFailure(err));
@@ -31,7 +31,7 @@ export const post = (URL, syncActions) => data => (dispatch) => {
         return dispatch(syncActions.postSuccess(json.body));
       }
       dispatch(syncActions.postFailure(json.errors));
-      throw new Error();
+      return false;
     })
     .catch((err) => {
       dispatch(syncActions.postFailure(err));
@@ -65,7 +65,7 @@ export const del = (URL, syncActions) => data => (dispatch) => {
         return dispatch(syncActions.deleteSuccess(data));
       }
       dispatch(syncActions.deleteFailure(json.errors));
-      throw new Error();
+      return false;
     })
     .catch((err) => {
       dispatch(syncActions.deleteFailure(err));

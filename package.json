@@ -1,6 +1,10 @@
 {
   "name": "reusablecrudredux",
+<<<<<<< HEAD
   "version": "1.0.15",
+=======
+  "version": "1.0.16",
+>>>>>>> 7eff891d3616b4a9db9ff89d82df365838649d50
   "description": "",
   "main": "build/index.js",
   "scripts": {
