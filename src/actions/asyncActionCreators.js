@@ -27,7 +27,7 @@ export const post = (URL, syncActions) => data => (dispatch) => {
   return fetch(URL, { body: JSON.stringify(data), method: 'POST', headers: jsonHeader })
     .then(res => res.json())
     .then((json) => {
-      if (json.code === 201) {
+      if (json.code === 200) {
         return dispatch(syncActions.postSuccess(json.body));
       }
       dispatch(syncActions.postFailure(json.errors));
@@ -61,6 +61,7 @@ export const del = (URL, syncActions) => data => (dispatch) => {
   return fetch(URL, { body: JSON.stringify(data), method: 'DELETE', headers: jsonHeader })
     .then(res => res.json())
     .then((json) => {
+      console.log(json);
       if (json.code === 204) {
         return dispatch(syncActions.deleteSuccess(data));
       }
