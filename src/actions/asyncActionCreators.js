@@ -1,13 +1,9 @@
 import 'isomorphic-fetch'; /* global fetch */
 import configureSyncActions from './syncActionCreators';
 
-const jsonHeader = {
-  'Content-Type': 'application/json',
-};
-
-export const get = (URL, syncActions) => () => (dispatch) => {
+export const get = (URL, syncActions, headerCreator) => () => (dispatch) => {
   dispatch(syncActions.getRequest());
-  return fetch(URL)
+  return fetch(URL, { headers: headerCreator() })
     .then(res => res.json())
     .then((json) => {
       if (json.code === 200) {
@@ -22,9 +18,9 @@ export const get = (URL, syncActions) => () => (dispatch) => {
     });
 };
 
-export const post = (URL, syncActions) => data => (dispatch) => {
+export const post = (URL, syncActions, headerCreator) => data => (dispatch) => {
   dispatch(syncActions.postRequest());
-  return fetch(URL, { body: JSON.stringify(data), method: 'POST', headers: jsonHeader })
+  return fetch(URL, { body: JSON.stringify(data), method: 'POST', headers: headerCreator() })
     .then(res => res.json())
     .then((json) => {
       if (json.code === 200) {
@@ -39,9 +35,9 @@ export const post = (URL, syncActions) => data => (dispatch) => {
     });
 };
 
-export const put = (URL, syncActions) => data => (dispatch) => {
+export const put = (URL, syncActions, headerCreator) => data => (dispatch) => {
   dispatch(syncActions.putRequest());
-  return fetch(URL, { body: JSON.stringify(data), method: 'PUT', headers: jsonHeader })
+  return fetch(URL, { body: JSON.stringify(data), method: 'PUT', headers: headerCreator() })
     .then(res => res.json())
     .then((json) => {
       if (json.code === 200) {
@@ -56,12 +52,11 @@ export const put = (URL, syncActions) => data => (dispatch) => {
     });
 };
 
-export const del = (URL, syncActions) => data => (dispatch) => {
+export const del = (URL, syncActions, headerCreator) => data => (dispatch) => {
   dispatch(syncActions.deleteRequest());
-  return fetch(URL, { body: JSON.stringify(data), method: 'DELETE', headers: jsonHeader })
+  return fetch(URL, { body: JSON.stringify(data), method: 'DELETE', headers: headerCreator() })
     .then(res => res.json())
     .then((json) => {
-      console.log(json);
       if (json.code === 204) {
         return dispatch(syncActions.deleteSuccess(data));
       }
@@ -74,12 +69,12 @@ export const del = (URL, syncActions) => data => (dispatch) => {
     });
 };
 
-export default (URL, uniqueKeyValuePairID) => {
+export default (URL, uniqueKeyValuePairID, headerCreator) => {
   const syncActions = configureSyncActions(uniqueKeyValuePairID);
   return {
-    get: get(URL, syncActions),
-    post: post(URL, syncActions),
-    put: put(URL, syncActions),
-    delete: del(URL, syncActions),
+    get: get(URL, syncActions, headerCreator),
+    post: post(URL, syncActions, headerCreator),
+    put: put(URL, syncActions, headerCreator),
+    delete: del(URL, syncActions, headerCreator),
   };
 };
