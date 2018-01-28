@@ -138,3 +138,5 @@ A submit could be like this:
 ```js
 asyncActions.post(state.clients.create)
 ```
+
+This module is being used on this [app](https://rxrossi.github.io/fv-client/), source code is [here](https://github.com/rxrossi/fv-client)
