@@ -10,7 +10,7 @@ const asyncActions = asyncActionsConfigurer(RESOURCE_URL, { resourceName: 'clien
 
 const syncActions = syncActionsConfigurer({ resourceName: 'clients' });
 
-const headers = { 'content-type': 'application/json' };
+const headerCreator = () => ({ 'content-type': 'application/json' });
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
@@ -31,7 +31,7 @@ describe('Async actions tests', () => {
           { name: 'Mary', phone: '123' },
           { name: 'John', phone: '456' },
         ];
-        fetchMock.get(RESOURCE_URL, { body: { code: 200, body: expectedPayload }, headers });
+        fetchMock.get(RESOURCE_URL, { body: { code: 200, body: expectedPayload }, headerCreator });
 
         const store = mockStore({});
 
@@ -52,7 +52,7 @@ describe('Async actions tests', () => {
         // Prepare
         const expectedPayload = { name: 'Mary', phone: '123' };
 
-        fetchMock.post(RESOURCE_URL, { body: { code: 201, body: expectedPayload }, headers });
+        fetchMock.post(RESOURCE_URL, { body: { code: 201, body: expectedPayload }, headerCreator });
 
         const store = mockStore({});
 
@@ -73,7 +73,7 @@ describe('Async actions tests', () => {
         // Prepare
         const expectedPayload = { name: 'Mary', phone: '123' };
 
-        fetchMock.put(RESOURCE_URL, { body: { code: 200, body: expectedPayload }, headers });
+        fetchMock.put(RESOURCE_URL, { body: { code: 200, body: expectedPayload }, headerCreator });
 
         const store = mockStore({});
 
@@ -96,7 +96,7 @@ describe('Async actions tests', () => {
 
         fetchMock.delete(
           (url, opts) => url === RESOURCE_URL && opts.body === JSON.stringify(id)
-          , { body: { code: 204, body: expectedPayload }, headers },
+          , { body: { code: 204, body: expectedPayload }, headerCreator },
         );
 
         const store = mockStore({});
