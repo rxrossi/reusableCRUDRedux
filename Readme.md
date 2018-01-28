@@ -93,11 +93,15 @@ These functions have the same methods:
 ```js
 .clear() //Clears all the fields
 ```
-
+And
 ```js
-.changeField(name, value):
+.changeField(name, value) 
 ```
-Calling the above like createFormFieldsActions.changeField(age, 18) will produce the following result:
+Calling the above like
+```js
+createFormFieldsActions.changeField(age, 18)
+```
+will produce the following result:
 
 ```js
 formFields: {
