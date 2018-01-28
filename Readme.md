@@ -89,10 +89,15 @@ To use it:
 const { createFormFieldsActions, updateFormFieldActions } = reusableCRUDRedux('http://api.com/clients', 'clients', headerCreator);
 ```
 
-These functions have the same methods
-.clear() that clears all the fields
+These functions have the same methods:
+```js
+.clear()
+```
+Clears all the fields
 
-.changeField(name, value)
+```js
+.changeField(name, value):
+```
 Calling the above like createFormFieldsActions.changeField(age, 18) will produce the following result:
 
 ```js
