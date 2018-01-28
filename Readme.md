@@ -99,7 +99,7 @@ And
 ```
 Calling the above like
 ```js
-createFormFieldsActions.changeField(age, 18)
+createFormFieldsActions.changeField('age', 18)
 ```
 will produce the following result:
 
