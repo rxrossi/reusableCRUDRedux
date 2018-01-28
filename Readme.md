@@ -7,12 +7,13 @@ With this module, it can be as easy as this:
 ```js
 import reusable from 'reusablecrudredux'
 
-const { reducer, asyncActions } = reusableCRUDRedux(http://api.com/clients, 'clients');
+const { reducer, asyncActions } = reusableCRUDRedux('http://api.com/clients', 'clients');
 ```
 
 The first argument is the endpoint of the API for POST, PUT, GET and DELETE
 The second argument is the name of where you plan to store is in state, in the example above you will have a structure like this
 
+```js
 state = {
   clients: {
     entities: [],
@@ -20,6 +21,7 @@ state = {
     formFields,
   }
 }
+```
 
 The usage of APIStatus and formFields is optional and will be explained in the section bellow
 
@@ -30,7 +32,7 @@ It also supports jwt, for this you would initiate like this:
 ```js
 import reusable from 'reusablecrudredux'
 
-const { reducer, asyncActions } = reusableCRUDRedux(http://api.com/clients, 'clients', headerCreator);
+const { reducer, asyncActions } = reusableCRUDRedux('http://api.com/clients', 'clients', headerCreator);
 ```
 
 headerCreator needs to be a function that will return an object, like this:
@@ -69,10 +71,12 @@ APIStatus: {
 # formFields
 it has the following structure
 
+```js
 formFields: {
   create: {},
   update: {},
 }
+```
 
 Create is for forms that are creating new entities, like a new client
 Update is for forms that are updating entities
@@ -82,7 +86,7 @@ The structure is a flexible as possible, it supports arrays of fields, like in c
 To use it:
 
 ```js
-const { createFormFieldsActions, updateFormFieldActions } = reusableCRUDRedux(http://api.com/clients, 'clients', headerCreator);
+const { createFormFieldsActions, updateFormFieldActions } = reusableCRUDRedux('http://api.com/clients', 'clients', headerCreator);
 ```
 
 These functions have the same methods
@@ -121,4 +125,8 @@ formFields: {
 }
 ```
 
-A submit could be like this asyncActions.post(state.clients.create)
+A submit could be like this:
+
+```js
+asyncActions.post(state.clients.create)
+```
