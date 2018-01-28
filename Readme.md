@@ -91,9 +91,8 @@ const { createFormFieldsActions, updateFormFieldActions } = reusableCRUDRedux('h
 
 These functions have the same methods:
 ```js
-.clear()
+.clear() //Clears all the fields
 ```
-Clears all the fields
 
 ```js
 .changeField(name, value):
