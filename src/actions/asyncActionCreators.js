@@ -6,7 +6,7 @@ export const get = (URL, syncActions, headerCreator) => () => (dispatch) => {
   return fetch(URL, { headers: headerCreator() })
     .then(res => res.json())
     .then((json) => {
-      if (json.code === 200) {
+      if (json.statusCode === 200) {
         return dispatch(syncActions.getSuccess(json.body));
       }
       dispatch(syncActions.getFailure(json.errors));
@@ -23,7 +23,7 @@ export const post = (URL, syncActions, headerCreator) => data => (dispatch) => {
   return fetch(URL, { body: JSON.stringify(data), method: 'POST', headers: headerCreator() })
     .then(res => res.json())
     .then((json) => {
-      if (json.code === 200) {
+      if (json.statusCode === 200) {
         return dispatch(syncActions.postSuccess(json.body));
       }
       dispatch(syncActions.postFailure(json.errors));
@@ -40,7 +40,7 @@ export const put = (URL, syncActions, headerCreator) => data => (dispatch) => {
   return fetch(URL, { body: JSON.stringify(data), method: 'PUT', headers: headerCreator() })
     .then(res => res.json())
     .then((json) => {
-      if (json.code === 200) {
+      if (json.statusCode === 200) {
         return dispatch(syncActions.putSuccess(json.body));
       }
       dispatch(syncActions.putFailure(json.errors));
@@ -57,7 +57,7 @@ export const del = (URL, syncActions, headerCreator) => data => (dispatch) => {
   return fetch(URL, { body: JSON.stringify(data), method: 'DELETE', headers: headerCreator() })
     .then(res => res.json())
     .then((json) => {
-      if (json.code === 204) {
+      if (json.statusCode === 204) {
         return dispatch(syncActions.deleteSuccess(data));
       }
       dispatch(syncActions.deleteFailure(json.errors));
